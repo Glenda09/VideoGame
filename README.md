@@ -1,66 +1,151 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GameStore
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+GameStore is a complete Laravel 11 ecommerce platform focused on selling physical and digital videogames. It ships with a containerised environment, authentication via Laravel Breeze, Redis-backed cache and queues, Horizon monitoring, Swagger documentation, automated tests, and end-to-end checkout integrated with Wompi (card and transfers) including webhook processing.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Modern Laravel 11 stack with PHP 8.2, Redis cache/queues, Horizon, Mailhog and MySQL 8.
+- Docker Compose environment (Nginx + PHP-FPM + Node 20 + Redis + Horizon + Mailhog) with handy `make` shortcuts.
+- Authentication with email verification, password policies, rate limiting, and admin role gating.
+- Videogame catalogue: categories, platforms, products (physical/digital), images, inventory, coupons, wishlists, reviews.
+- Shopping cart with coupon engine, configurable VAT, checkout wizard, order management, PDF invoicing (Dompdf) and email notifications.
+- Wompi integration encapsulated in `App\Services\Wompi\WompiClient`, webhook signature verification, idempotent processing jobs.
+- Admin panel built with Blade and Tailwind for dashboards, CRUDs, digital key management, review moderation, CSV exports.
+- Swagger/OpenAPI 3 docs served from `/docs` covering public storefront and admin API endpoints.
+- Comprehensive test suite using Pest + PHPUnit with unit, feature, and API coverage (target ≥ 70%).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Docker 27+
+- Docker Compose v2
+- Make (optional but recommended)
 
-## Learning Laravel
+## Quick Start
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+cp .env.example .env                 # configure keys and Wompi sandbox credentials
+make up                              # build containers and start the stack
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate --seed
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Visit the following URLs once the stack is up:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Storefront: http://localhost
+- Admin panel: http://localhost/admin
+- Swagger UI: http://localhost/docs
+- Horizon dashboard: http://localhost/horizon
+- Mailhog inbox: http://localhost:8025
 
-## Laravel Sponsors
+Seeder credentials (created in later steps) provide admin/demo accounts for exploration.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Services & Ports
 
-### Premium Partners
+| Service  | Image                | Port(s)      | Notes                                   |
+|----------|----------------------|--------------|-----------------------------------------|
+| app      | PHP-FPM 8.2          | —            | Runs Artisan, queue workers, tests      |
+| web      | Nginx 1.27           | 8000 → 80    | Serves the Laravel application          |
+| vite     | Node 20 (dev server) | 5173         | Hot module reload for Blade/Tailwind    |
+| mysql    | MySQL 8.0            | 33060 → 3306 | Main database                           |
+| redis    | Redis 7              | 6379         | Cache, queues, rate limiting            |
+| horizon  | PHP-FPM (queue)      | —            | Horizon supervisor (enable via profile) |
+| mailhog  | Mailhog 1.0          | 8025         | Catch-all SMTP for local email          |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Make Commands
 
-## Contributing
+| Command          | Description                                      |
+|------------------|--------------------------------------------------|
+| `make up`        | Build images and start the full stack            |
+| `make down`      | Stop and remove containers, networks, and volumes|
+| `make restart`   | Rebuild and restart the stack                    |
+| `make migrate`   | Run outstanding migrations                       |
+| `make migrate-fresh` | Rebuild schema and seed demo data           |
+| `make seed`      | Run migrations and seeders                       |
+| `make test`      | Run the test suite in parallel                   |
+| `make pest`      | Execute Pest directly                            |
+| `make coverage`  | Generate test coverage report                    |
+| `make cs-fix`    | Run PHP-CS-Fixer with project rules              |
+| `make horizon`   | Start the Horizon worker profile                 |
+| `make logs`      | Tail combined Docker logs                        |
+| `make docs`      | Regenerate Swagger documentation via Artisan     |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Environment
 
-## Code of Conduct
+Key environment variables are defined in `.env.example`. Ensure Wompi sandbox keys, Mailhog sender, Redis cache, and VAT rate match your setup. Horizon queues use the `HORIZON_PREFIX` for consistent naming across environments.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Documentation & Swagger
 
-## Security Vulnerabilities
+OpenAPI definitions live under `storage/app/openapi` (generated later). Use `make docs` after modifying routes or controllers to refresh the documentation. Swagger UI is exposed at `/docs`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Testing Strategy
 
-## License
+- Pest + PHPUnit with `tests/Feature` and `tests/Unit`.
+- API tests cover checkout flow (including fake webhook), inventory adjustments, coupon rules, and admin policies.
+- Run `make test` to execute the full suite. Coverage reports are stored in `storage/app/coverage` and surfaced in CI.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Continuous Integration
+
+GitHub Actions workflows (added later) execute PHP-CS-Fixer linting, run the Pest suite, and ensure Vite compiles assets. Secrets required for CI are documented in `.github/workflows/README.md`.
+
+## Diagrams
+
+### Entity Relationship
+
+```mermaid
+erDiagram
+    categories ||--o{ categories : parent
+    categories ||--o{ products : contains
+    platforms ||--o{ platform_product : supports
+    products ||--o{ platform_product : listed_on
+    products ||--o{ product_images : has
+    products ||--|| inventories : inventory_for
+    products ||--o{ reviews : reviewed_in
+    products ||--o{ order_items : sold_in
+    products ||--o{ wishlists : wished_by
+    order_items ||--|| digital_keys : delivers
+    users ||--o{ wishlists : maintains
+    users ||--o{ reviews : writes
+    users ||--o{ carts : owns
+    carts ||--o{ cart_items : contains
+    users ||--o{ orders : creates
+    orders ||--o{ order_items : includes
+    orders ||--o{ payments : recorded_by
+    coupons ||--o{ orders : applied_to
+```
+
+### Payment Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant S as Storefront
+    participant W as Wompi
+    participant Q as Queue Worker
+
+    U->>S: Confirm checkout
+    S->>S: Create Order + Payment (REQUIRES_PAYMENT)
+    S->>W: Create transaction via WompiClient
+    W-->>U: Redirect / widget confirmation
+    W-->>S: Webhook (signature + payload)
+    S->>Q: Dispatch ProcessWompiEvent job
+    Q->>S: Update payment + order status
+    Q->>S: Fulfil inventory, assign digital keys, email receipt
+    S-->>U: Success page / email confirmation
+```
+
+## Project Structure Highlights
+
+- `app/Services/Wompi` – API client, DTOs and signature helpers.
+- `app/Http/Controllers/Storefront` – Public catalogue, cart, checkout.
+- `app/Http/Controllers/Admin` – Admin dashboard and CRUD controllers.
+- `app/Policies` – Authorization for admin-only features.
+- `database/factories` and `database/seeders` – Rich demo data generation.
+- `routes/web.php`, `routes/api.php`, `routes/admin.php` – Segregated route groups.
+- `resources/views` – Tailwind powered Blade views for store and admin UI.
+
+## Additional Notes
+
+- Mailhog captures all outgoing emails; check `/storage/logs/laravel.log` for queue/webhook logs.
+- Horizon metrics are namespaced by `HORIZON_PREFIX`.
+- Digital keys can be imported via CSV from the admin panel.
+- Remember to set a unique `APP_KEY` and secure passwords before deploying to production.

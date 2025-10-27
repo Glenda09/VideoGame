@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="gallery4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#facc15" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#gallery4)"/>
+  <polygon points="200,30 350,270 50,270" fill="#fde68a" fill-opacity="0.25"/>
+  <text x="50%" y="54%" fill="#1f2937" fill-opacity="0.8" font-family="'Chakra Petch', sans-serif" font-size="34" text-anchor="middle" letter-spacing="8">
+    SPORTS
+  </text>
+</svg>

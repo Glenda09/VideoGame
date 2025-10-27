@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="gallery5" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#gallery5)"/>
+  <g fill="#ffffff" fill-opacity="0.3">
+    <circle cx="80" cy="80" r="40"/>
+    <circle cx="320" cy="220" r="60"/>
+    <circle cx="260" cy="90" r="30"/>
+  </g>
+  <text x="50%" y="55%" fill="#f8fafc" font-family="'Chakra Petch', sans-serif" font-size="30" text-anchor="middle" letter-spacing="8">
+    INDIE
+  </text>
+</svg>

@@ -12,7 +12,18 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                display: ['Chakra Petch', ...defaultTheme.fontFamily.sans],
+            },
+            boxShadow: {
+                neon: '0 0 25px rgba(236, 72, 153, 0.35)',
+            },
+            colors: {
+                brand: {
+                    pink: '#ec4899',
+                    purple: '#8b5cf6',
+                    slate: '#0f172a',
+                },
             },
         },
     },

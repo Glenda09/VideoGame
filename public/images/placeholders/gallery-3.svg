@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="gallery3" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#gallery3)"/>
+  <path d="M60 260 C120 200, 280 220, 340 150" stroke="#bbf7d0" stroke-width="18" stroke-linecap="round" stroke-opacity="0.25" fill="none"/>
+  <text x="50%" y="54%" fill="#ffffff" fill-opacity="0.85" font-family="'Chakra Petch', sans-serif" font-size="34" text-anchor="middle" letter-spacing="8">
+    RPG
+  </text>
+</svg>

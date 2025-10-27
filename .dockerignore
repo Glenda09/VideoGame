@@ -1,0 +1,14 @@
+.git
+.gitmodules
+.github
+.env
+.env.*
+node_modules
+vendor
+storage
+bootstrap/cache/*.php
+.idea
+.vscode
+npm-debug.log
+yarn-error.log
+coverage

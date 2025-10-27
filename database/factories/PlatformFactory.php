@@ -16,8 +16,19 @@ class PlatformFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->unique()->randomElement([
+            'PlayStation 5',
+            'Xbox Series X',
+            'Nintendo Switch',
+            'PC',
+            'Steam Deck',
+            'PlayStation 4',
+            'Xbox One',
+        ]);
+
         return [
-            //
+            'name' => $name,
+            'slug' => \Str::slug($name),
         ];
     }
 }

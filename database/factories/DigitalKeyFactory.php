@@ -17,7 +17,15 @@ class DigitalKeyFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_id' => \App\Models\Product::factory()->digital(),
+            'order_item_id' => null,
+            'code' => strtoupper($this->faker->unique()->bothify('DIGI-####-####-####')),
+            'redeemed_at' => null,
         ];
+    }
+
+    public function redeemed(): static
+    {
+        return $this->state(fn () => ['redeemed_at' => now()]);
     }
 }

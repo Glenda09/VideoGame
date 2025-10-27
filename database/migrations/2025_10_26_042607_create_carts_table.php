@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
             $table->uuid('guest_token')->nullable()->unique();
             $table->string('currency', 3)->default('USD');
-            $table->unsignedDecimal('vat_rate', 5, 2)->default(0.0);
+            $table->decimal('vat_rate', 5, 2)->unsigned()->default(0.0);
             $table->string('coupon_code')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();

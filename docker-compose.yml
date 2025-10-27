@@ -1,0 +1,134 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+      args:
+        WITH_DEV: "true"
+    image: gamestore-app
+    container_name: gamestore-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - vendor:/var/www/html/vendor
+      - storage:/var/www/html/storage
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - gamestore
+
+  web:
+    image: nginx:1.27-alpine
+    container_name: gamestore-web
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+      - vendor:/var/www/html/vendor
+      - storage:/var/www/html/storage
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      app:
+        condition: service_started
+    networks:
+      - gamestore
+
+  vite:
+    image: node:20-alpine
+    container_name: gamestore-vite
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/var/www/html
+      - node_modules:/var/www/html/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      app:
+        condition: service_started
+    networks:
+      - gamestore
+
+  mysql:
+    image: mysql:8.0
+    container_name: gamestore-mysql
+    restart: unless-stopped
+    ports:
+      - "33060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gamestore
+      MYSQL_USER: gamestore
+      MYSQL_PASSWORD: secret
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-hmysql", "-uroot", "-proot"]
+      retries: 10
+      timeout: 5s
+    networks:
+      - gamestore
+
+  redis:
+    image: redis:7-alpine
+    container_name: gamestore-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    networks:
+      - gamestore
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: gamestore-mailhog
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+    networks:
+      - gamestore
+
+  horizon:
+    image: gamestore-app
+    container_name: gamestore-horizon
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: php artisan horizon
+    volumes:
+      - ./:/var/www/html
+      - vendor:/var/www/html/vendor
+      - storage:/var/www/html/storage
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - gamestore
+    profiles:
+      - queue
+
+volumes:
+  mysql-data:
+  node_modules:
+  vendor:
+  storage:
+
+networks:
+  gamestore:
+    driver: bridge

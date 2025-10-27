@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="gc-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.85" />
+      <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.85" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#gc-gradient)"/>
+  <g fill="#ffffff" fill-opacity="0.85" font-family="'Chakra Petch', sans-serif" text-anchor="middle">
+    <text x="50%" y="45%" font-size="56" letter-spacing="12">GAMESTORE</text>
+    <text x="50%" y="65%" font-size="20" letter-spacing="6" fill-opacity="0.6">NEXT GEN GAMING</text>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="gallery2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#gallery2)"/>
+  <rect x="40" y="190" width="120" height="120" fill="#7dd3fc" fill-opacity="0.25" transform="rotate(-15 100 250)"/>
+  <rect x="250" y="30" width="110" height="110" fill="#c4b5fd" fill-opacity="0.35" transform="rotate(12 305 85)"/>
+  <text x="50%" y="52%" fill="#ffffff" fill-opacity="0.9" font-family="'Chakra Petch', sans-serif" font-size="32" text-anchor="middle" letter-spacing="6">
+    ADVENTURE
+  </text>
+</svg>
