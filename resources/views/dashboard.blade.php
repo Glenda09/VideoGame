@@ -15,7 +15,18 @@
     </x-slot>
 
     <div class="mx-auto max-w-7xl px-6 py-10 sm:px-10 lg:px-12">
-        <div class="grid gap-6 md:grid-cols-3">
+        <div @class([
+            'grid gap-6',
+            'md:grid-cols-4' => $user->isSuperAdmin(),
+            'md:grid-cols-3' => !$user->isSuperAdmin(),
+        ])>
+            @if ($user->isSuperAdmin())
+                <a href="{{ route('admin.dashboard') }}" class="rounded-3xl border border-pink-600/60 bg-gradient-to-br from-pink-500/20 via-purple-600/10 to-slate-900/70 p-6 shadow-lg shadow-pink-500/20 transition hover:border-pink-500 hover:shadow-pink-500/40">
+                    <p class="text-xs uppercase tracking-widest text-pink-300">Administración</p>
+                    <p class="mt-2 text-3xl font-semibold text-white">Panel super admin</p>
+                    <p class="mt-1 text-sm text-pink-100/80">Gestiona juegos, categorías, plataformas y más.</p>
+                </a>
+            @endif
             <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-lg shadow-slate-950/20">
                 <p class="text-xs uppercase tracking-widest text-slate-400">Pedidos</p>
                 <p class="mt-2 text-3xl font-semibold text-white">{{ $ordersCount }}</p>

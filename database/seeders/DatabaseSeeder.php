@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\CouponType;
+use App\Enums\Role;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Category;
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'GameStore Admin',
             'email' => 'admin@gamestore.test',
             'password' => Hash::make('password'),
-            'is_admin' => true,
+            'role' => Role::SuperAdmin,
         ]);
 
         $customers = User::factory()

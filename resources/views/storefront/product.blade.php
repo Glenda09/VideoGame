@@ -71,14 +71,30 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <button type="button" class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-5 py-3 text-sm font-semibold text-white shadow hover:from-pink-400 hover:to-purple-500">
-                            Añadir al carrito
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                        <button type="button" class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:border-pink-500 hover:text-white">
+                    <div class="mt-6 space-y-3">
+                        <form method="POST" action="{{ route('cart.items.store') }}" class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            @if ($product->is_digital)
+                                <input type="hidden" name="quantity" value="1">
+                            @else
+                                <label class="flex items-center gap-3 rounded-full border border-slate-800 bg-slate-950/60 px-4 py-2 text-sm text-slate-200">
+                                    <span class="text-xs uppercase tracking-widest text-slate-400">Cantidad</span>
+                                    <input type="number" name="quantity" value="1" min="1" max="10" class="h-9 w-20 rounded-full border border-slate-700 bg-slate-900 px-3 text-sm text-white focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500/30">
+                                </label>
+                            @endif
+                            <button
+                                type="submit"
+                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-5 py-3 text-sm font-semibold text-white shadow transition hover:from-pink-400 hover:to-purple-500 disabled:cursor-not-allowed disabled:opacity-60"
+                                @disabled(!$product->is_digital && !$product->hasStock())
+                            >
+                                Anadir al carrito
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </form>
+                        <button type="button" class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:border-pink-500 hover:text-white">
                             Agregar a wishlist
                         </button>
                     </div>
@@ -129,3 +145,6 @@
         </section>
     @endif
 </x-app-layout>
+
+
+

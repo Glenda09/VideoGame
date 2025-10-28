@@ -106,6 +106,12 @@
                                     Panel
                                     <span class="text-xs text-slate-500">Dashboard</span>
                                 </a>
+                                @if (auth()->user()->isSuperAdmin())
+                                    <a href="{{ route('admin.dashboard') }}" class="flex items-center justify-between rounded-lg px-3 py-2 text-slate-200 hover:bg-slate-800/80 hover:text-white">
+                                        Administración
+                                        <span class="text-xs text-pink-400">Super admin</span>
+                                    </a>
+                                @endif
                                 <a href="{{ route('profile.edit') }}" class="block rounded-lg px-3 py-2 text-slate-200 hover:bg-slate-800/80 hover:text-white">
                                     Mi perfil
                                 </a>
@@ -170,6 +176,11 @@
                     <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Mi cuenta</p>
                     <div class="mt-3 grid gap-2 text-sm text-slate-200">
                         <a href="{{ route('dashboard') }}" class="rounded-lg bg-slate-800/60 px-3 py-2">Panel de usuario</a>
+                        @if (auth()->user()->isSuperAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="rounded-lg bg-gradient-to-r from-pink-500/80 to-purple-600/80 px-3 py-2 font-semibold text-white">
+                                Panel de administración
+                            </a>
+                        @endif
                         <a href="{{ route('profile.edit') }}" class="rounded-lg bg-slate-800/60 px-3 py-2">Perfil y seguridad</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

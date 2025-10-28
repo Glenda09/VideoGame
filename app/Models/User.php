@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasFactory;
     use Notifiable;
@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_admin',
+        'role',
     ];
 
     protected $hidden = [
@@ -32,7 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'bool',
+            'role' => Role::class,
         ];
     }
 
@@ -68,6 +68,25 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return (bool) $this->is_admin;
+        return $this->isSuperAdmin();
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        if ($this->role instanceof Role) {
+            return $this->role->isSuperAdmin();
+        }
+
+        if (is_string($this->role)) {
+            return Role::tryFrom($this->role)?->isSuperAdmin() ?? false;
+        }
+
+        $attributes = $this->getAttributes();
+
+        if (array_key_exists('is_admin', $attributes)) {
+            return (bool) $attributes['is_admin'];
+        }
+
+        return false;
     }
 }
