@@ -24,7 +24,9 @@
                 </button>
 
                 <a href="{{ route('home') }}" class="flex items-center gap-3 text-white">
-                    <x-application-logo class="h-9 w-9 text-pink-500" />
+                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 text-sm font-semibold uppercase text-white shadow-lg shadow-pink-500/30">
+                        GS
+                    </span>
                     <div class="flex flex-col leading-tight">
                         <span class="text-xl font-semibold tracking-tight">{{ config('app.name') }}</span>
                         <span class="text-xs uppercase tracking-[0.3em] text-pink-400/80">Level Up</span>
@@ -68,12 +70,12 @@
                 </div>
             </div>
 
-            <form action="{{ route('products.index') }}" method="GET" class="relative hidden flex-1 items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 focus-within:border-pink-500/70 focus-within:ring-2 focus-within:ring-pink-500/20 md:flex">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <form action="{{ route('products.index') }}" method="GET" class="relative hidden w-full flex-1 items-center gap-3 rounded-full border border-slate-800/70 bg-slate-950/80 px-5 py-2 text-sm text-slate-200 shadow-inner shadow-slate-950/40 transition focus-within:border-pink-500/70 focus-within:ring-2 focus-within:ring-pink-500/20 md:flex md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35m0 0A6.5 6.5 0 1010.3 6.3a6.5 6.5 0 006.35 10.35z" />
                 </svg>
-                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar título, SKU o palabra clave" class="h-9 w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-0" />
-                <button type="submit" class="hidden rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white shadow hover:from-pink-400 hover:to-purple-500 md:inline-flex">
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar título, SKU o palabra clave" class="h-9 w-full flex-1 min-w-0 bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-0" />
+                <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow transition hover:from-pink-400 hover:to-purple-500 sm:text-sm">
                     Buscar
                 </button>
             </form>
@@ -139,11 +141,14 @@
         </div>
 
         <div class="md:hidden">
-            <form action="{{ route('products.index') }}" method="GET" class="relative mt-3 flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 focus-within:border-pink-500/70 focus-within:ring-2 focus-within:ring-pink-500/20">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <form action="{{ route('products.index') }}" method="GET" class="relative mt-3 flex items-center gap-2 rounded-full border border-slate-800/70 bg-slate-950/80 px-4 py-2 text-sm text-slate-200 shadow-inner shadow-slate-950/40 focus-within:border-pink-500/70 focus-within:ring-2 focus-within:ring-pink-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35m0 0A6.5 6.5 0 1010.3 6.3a6.5 6.5 0 006.35 10.35z" />
                 </svg>
-                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar juegos..." class="h-9 w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-0" />
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Buscar juegos..." class="h-9 w-full flex-1 bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-0" />
+                <button type="submit" class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white shadow hover:from-pink-400 hover:to-purple-500">
+                    Buscar
+                </button>
             </form>
         </div>
     </div>

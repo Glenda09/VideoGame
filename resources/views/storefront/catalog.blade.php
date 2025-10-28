@@ -27,8 +27,13 @@
                         <input type="hidden" name="{{ $name }}" value="{{ $value }}">
                     @endif
                 @endforeach
-                <label for="sort" class="text-xs uppercase tracking-widest text-slate-500">Ordenar</label>
-                <select id="sort" name="sort" onchange="this.form.submit()" class="rounded-full border-none bg-transparent text-sm text-white focus:border-pink-500 focus:ring-0">
+                <label for="sort" class="text-xs uppercase tracking-widest text-slate-400">Ordenar</label>
+                <select
+                    id="sort"
+                    name="sort"
+                    onchange="this.form.submit()"
+                    class="rounded-full border border-slate-700 bg-slate-900/80 px-4 py-2 text-sm font-medium text-slate-200 shadow-inner shadow-slate-950/40 focus:border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500/30"
+                >
                     <option value="latest" @selected(($filters['sort'] ?? 'latest') === 'latest')>Más recientes</option>
                     <option value="price_asc" @selected(($filters['sort'] ?? '') === 'price_asc')>Precio: menor a mayor</option>
                     <option value="price_desc" @selected(($filters['sort'] ?? '') === 'price_desc')>Precio: mayor a menor</option>
