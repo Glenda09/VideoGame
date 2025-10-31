@@ -72,14 +72,28 @@ class Cart extends Model
         return $query->where('guest_token', $token);
     }
 
-    public function subtotal(): Money
+       /**
+     * Accessor para $cart->subtotal (devuelve un objeto Money).
+     * Laravel usará este método cuando accedas a $cart->subtotal en vistas.
+     */
+    public function getSubtotalAttribute(): Money
     {
         $amount = (int) $this->items->sum(
-            fn (CartItem $item) => $item->lineTotal()->amount
+            fn (CartItem $item) => $item->lineTotal()->amount ?? 0
         );
 
         return new Money($amount, $this->currency);
     }
+
+    /**
+     * Método compatible para uso en código (si alguien llamaba a $cart->subtotal()).
+     * Llamar a $cart->subtotalAmount() devuelve el mismo Money que el accessor.
+     */
+    public function subtotalAmount(): Money
+    {
+        return $this->getSubtotalAttribute();
+    }
+
 
     public function totals(): CartTotals
     {

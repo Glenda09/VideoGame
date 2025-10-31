@@ -101,25 +101,71 @@ class Order extends Model
         return $query->where('status', OrderStatus::Paid);
     }
 
-    public function subtotal(): Money
+    //
+    // ======= Accessors seguros para dinero (Money) =======
+    // ahora $order->subtotal, $order->tax, $order->discount, $order->total
+    // devolverán objetos App\Support\Money
+    //
+
+    public function getSubtotalAttribute(): Money
     {
-        return new Money($this->subtotal_cents, $this->currency);
+        $amount = (int) ($this->subtotal_cents ?? 0);
+        $currency = $this->currency ?? 'USD';
+
+        return new Money($amount, $currency);
     }
 
-    public function tax(): Money
+    public function getTaxAttribute(): Money
     {
-        return new Money($this->tax_cents, $this->currency);
+        $amount = (int) ($this->tax_cents ?? 0);
+        $currency = $this->currency ?? 'USD';
+
+        return new Money($amount, $currency);
     }
 
-    public function discount(): Money
+    public function getDiscountAttribute(): Money
     {
-        return new Money($this->discount_cents, $this->currency);
+        $amount = (int) ($this->discount_cents ?? 0);
+        $currency = $this->currency ?? 'USD';
+
+        return new Money($amount, $currency);
     }
 
-    public function total(): Money
+    public function getTotalAttribute(): Money
     {
-        return new Money($this->total_cents, $this->currency);
+        $amount = (int) ($this->total_cents ?? 0);
+        $currency = $this->currency ?? 'USD';
+
+        return new Money($amount, $currency);
     }
+
+    //
+    // Métodos de compatibilidad en caso que alguna parte del código
+    // llame a $order->subtotal() / ->total() como método.
+    //
+    public function subtotalAmount(): Money
+    {
+        return $this->getSubtotalAttribute();
+    }
+
+    public function taxAmount(): Money
+    {
+        return $this->getTaxAttribute();
+    }
+
+    public function discountAmount(): Money
+    {
+        return $this->getDiscountAttribute();
+    }
+
+    public function totalAmount(): Money
+    {
+        return $this->getTotalAttribute();
+    }
+
+    //
+    // ======= Resto del comportamiento del Order =======
+    //
 
     public function isPaid(): bool
     {

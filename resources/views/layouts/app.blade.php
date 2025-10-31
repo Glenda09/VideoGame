@@ -88,5 +88,7 @@
 
         @stack('modals')
         @stack('scripts')
+        <script src="https://pagos.wompi.sv/js/wompi.pagos.js"></script>
+
     </body>
 </html>
